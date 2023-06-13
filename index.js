@@ -3,6 +3,7 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const jest = require('jest');
 
+// questions for inquirer
 const questions = [
     {
         type: 'input',
@@ -27,6 +28,7 @@ const questions = [
     }
 ]
 
+// inquirer prompt/generation
 inquirer
     .prompt(
         questions
