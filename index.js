@@ -1,6 +1,4 @@
-const Shapes = require('./lib/shapes.js');
-const logoText = require('./lib/text.js');
-// const svgFile = require('./svg.js')
+const svgFile = require('./lib/svg.js');
 const fs = require('fs');
 const inquirer = require('inquirer');
 const jest = require('jest');
@@ -13,7 +11,7 @@ const questions = [
     },
     {
         type: 'input',
-        message: 'Text color (color name or hex code): ',
+        message: 'Text color (color name or hex code; if a hex code, please precede with "#"): ',
         name: 'textcolor'
     },
     {
@@ -24,7 +22,7 @@ const questions = [
     },
     {
         type: 'input',
-        message: 'Shape color (color name or hex code): ',
+        message: 'Shape color (color name or hex code; if a hex code, please precede with "#"): ',
         name: 'shapecolor'
     }
 ]
@@ -35,7 +33,13 @@ inquirer
     )
 
     .then((data) => {
-        const getShape = Shapes(data);
-        const getText = logoText(data);
-        console.log(getShape, getText);
+        const getSVG = svgFile(data)
+        if (data.logotext.length > 3){
+            console.error("Logo text must be no more than 3 characters")
+            return;
+        } else {
+            fs.writeFile('logo.svg', getSVG, (err) =>
+            err ? console.log(err) : console.log('Generated logo.svg')
+            ); 
+        }
     })
